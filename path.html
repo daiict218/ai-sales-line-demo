@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Lead Status Path</title>
+<style>
+  :root { --done:#0a7a5a; --cur:#0b5cd5; --todo:#e8edf3; --todoText:#4a5568; --lost:#c0392b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:10px 12px; font:500 13px/1.2 -apple-system, "Segoe UI", Roboto, sans-serif; background:#fff; color:#1a202c; }
+  .head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+  .head b { font-size:14px; }
+  .head span { color:#4a5568; font-size:12px; }
+  .path { display:flex; gap:4px; }
+  .step { flex:1; position:relative; height:36px; display:flex; align-items:center; justify-content:center;
+          background:var(--todo); color:var(--todoText); clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+          padding:0 14px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .step:first-child { clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); border-radius:18px 0 0 18px; }
+  .step:last-child { clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%); border-radius:0 18px 18px 0; }
+  .step.done { background:var(--done); color:#fff; }
+  .step.done::before { content:"\2713\00a0"; }
+  .step.cur { background:var(--cur); color:#fff; font-weight:700; }
+  .step.lost { background:var(--lost); color:#fff; font-weight:700; }
+  #dbg { margin-top:8px; font:11px monospace; color:#555; white-space:pre-wrap; word-break:break-all; }
+</style>
+</head>
+<body>
+<div class="head"><b>Lead status</b><span id="who"></span></div>
+<div class="path" id="path"></div>
+<div id="dbg"></div>
+<script>
+  // Lead status path for the SDR call screen. The Sprinklr Iframe widget passes ?status=&name= ; New is the default.
+  var STAGES = ["New", "Contacted", "Qualified", "Meeting Booked", "Won"];
+  var q = new URLSearchParams(location.search);
+  function render(status, name) {
+    var s = (status || "New").trim();
+    var lost = /^lost$/i.test(s);
+    var idx = lost ? -1 : STAGES.findIndex(function (x) { return x.toLowerCase() === s.toLowerCase(); });
+    if (idx < 0 && !lost) idx = 0;
+    var html = STAGES.map(function (x, i) {
+      var label = (lost && i === STAGES.length - 1) ? "Lost" : x;
+      var cls = lost ? (i === STAGES.length - 1 ? "lost" : "") : (i < idx ? "done" : i === idx ? "cur" : "");
+      return '<div class="step ' + cls + '">' + label + '</div>';
+    }).join("");
+    document.getElementById("path").innerHTML = html;
+    if (name) document.getElementById("who").textContent = name;
+  }
+  render(q.get("status"), q.get("name"));
+  if (q.get("debug")) {
+    document.getElementById("dbg").textContent = "URL: " + location.href;
+    window.addEventListener("message", function (e) {
+      document.getElementById("dbg").textContent += "\nMSG: " + JSON.stringify(e.data).slice(0, 600);
+    });
+  }
+</script>
+</body>
+</html>
