@@ -18,7 +18,9 @@
   .lead { font-size:18px; color:var(--muted); max-width:640px; margin:0 0 28px; }
   .cta { display:inline-flex; align-items:center; gap:10px; background:var(--brand); color:#fff; border:0; border-radius:12px; padding:14px 22px; font-size:17px; font-weight:600; cursor:pointer; }
   .cta:hover { filter:brightness(1.08); }
-  .hint { font-size:13px; color:var(--muted); margin-top:10px; }
+  .lang { font-size:13px; font-weight:600; margin:-12px 0 16px; }
+  .cta { text-decoration:none; }
+  .hint { font-size:14px; color:var(--muted); margin-top:10px; }
   .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:40px; }
   .card { background:var(--card); border:1px solid #e3e7ef; border-radius:14px; padding:20px; }
   .card h3 { margin:0 0 8px; font-size:18px; }
@@ -33,10 +35,11 @@
 </header>
 <main>
   <section class="hero">
-    <h1>Talk to our AI sales assistant</h1>
-    <p class="lead">Ask anything about customer service software: contact center, AI agents or social care. The assistant answers right away and books a callback with a sales expert.</p>
-    <button class="cta" id="talk" type="button">Talk to our AI agent</button>
-    <div class="hint" id="hint">Opens a chat in the corner of this page.</div>
+    <h1>Give our AI agent a call and hear it for yourself</h1>
+    <p class="lead">Ask anything about contact center, AI agents or social care. The AI agent answers right away, captures what you need and a sales expert calls you back within minutes.</p>
+    <p class="lang">Language: English (US)</p>
+    <a class="cta" href="tel:+19727034992"><span aria-hidden="true">&#128222;</span> +1 972 703 4992</a>
+    <div class="hint">Call from any phone. Prefer to type? <a href="#" id="talk">Chat with the AI agent</a> instead.</div>
   </section>
   <section class="grid">
     <div class="card"><h3>Contact Center</h3><p>One platform for voice and digital channels, with AI that helps every agent.</p></div>
@@ -56,10 +59,10 @@ r.q.map(function(e){if("subscribeToUpdate"===e[0]&&e[1]&&"loadCompleted"===e[1].
 a.getElementsByTagName("script")[0]);t.parentNode.insertBefore(e,t)},"loading"!==a.readyState?i():a.addEventListener("DOMContentLoaded",i))}();
 </script>
 <script>
-  document.getElementById('talk').addEventListener('click', function () {
+  document.getElementById('talk').addEventListener('click', function (ev) {
+    ev.preventDefault();
     try { window.sprChat('open'); } catch (e) {}
     try { window.sprChat('openNewConversation'); } catch (e) {}
-    document.getElementById('hint').textContent = 'If the chat did not open, use the chat bubble at the bottom right.';
   });
 </script>
 </body>
