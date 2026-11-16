@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Sales Line Demo</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --ink:#0f1b2d; --muted:#5b6475; --brand:#1a56db; --bg:#f6f8fc; --card:#fff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); }
+  header { padding:20px 24px; display:flex; justify-content:space-between; align-items:center; max-width:1080px; margin:0 auto; }
+  .logo { font-weight:700; letter-spacing:.2px; }
+  .tag { font-size:12px; color:var(--muted); border:1px solid #d7dce6; border-radius:999px; padding:4px 10px; }
+  main { max-width:1080px; margin:0 auto; padding:24px; }
+  .hero { padding:48px 0 24px; }
+  h1 { font-size:clamp(28px,5vw,44px); line-height:1.15; margin:0 0 12px; }
+  .lead { font-size:18px; color:var(--muted); max-width:640px; margin:0 0 28px; }
+  .cta { display:inline-flex; align-items:center; gap:10px; background:var(--brand); color:#fff; border:0; border-radius:12px; padding:14px 22px; font-size:17px; font-weight:600; cursor:pointer; }
+  .cta:hover { filter:brightness(1.08); }
+  .hint { font-size:13px; color:var(--muted); margin-top:10px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:40px; }
+  .card { background:var(--card); border:1px solid #e3e7ef; border-radius:14px; padding:20px; }
+  .card h3 { margin:0 0 8px; font-size:18px; }
+  .card p { margin:0; color:var(--muted); font-size:15px; line-height:1.5; }
+  footer { max-width:1080px; margin:40px auto; padding:0 24px; font-size:12px; color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">AI Sales Line</div>
+  <div class="tag">Demo page</div>
+</header>
+<main>
+  <section class="hero">
+    <h1>Talk to our AI sales assistant</h1>
+    <p class="lead">Ask anything about customer service software: contact center, AI agents or social care. The assistant answers right away and books a callback with a sales expert.</p>
+    <button class="cta" id="talk" type="button">Talk to our AI agent</button>
+    <div class="hint" id="hint">Opens a chat in the corner of this page.</div>
+  </section>
+  <section class="grid">
+    <div class="card"><h3>Contact Center</h3><p>One platform for voice and digital channels, with AI that helps every agent.</p></div>
+    <div class="card"><h3>AI Agents</h3><p>Agents that resolve customer questions on their own, around the clock.</p></div>
+    <div class="card"><h3>Social</h3><p>Answer customers on social channels from the same desk as every other channel.</p></div>
+  </section>
+</main>
+<footer>Internal demo for testing an AI agent and lead capture. Not a public product page.</footer>
+
+<script>
+window.sprChatSettings = {"appId":"6afaddb1cd47c985a6956dd2_app_2608301","skin":"MODERN"};
+!function(){var a,r,n,o,i,s=window,e=s.sprChat;e&&e.loaded||(a=document,(r=function(){r.q.push(arguments)}).q=[],
+s.sprChat=r,s.sprChat.loaded=!0,n=0,o="spr-live-chat-widget",i=function(){var e=a.getElementById(o),e=(e&&e.parentNode.removeChild(e),a.createElement("script")),
+t=(e.type="text/javascript",e.async=!0,e.src="https://prod-live-chat.sprinklr.com/api/livechat/handshake/widget/"+s.sprChatSettings.appId,e.id=o,
+e.onerror=function(e){var t,a;++n<=3?setTimeout(i,250):(s.sprChat.loaded=!1,t="WIDGET_LOAD_FAILED",a=e,
+r.q.map(function(e){if("subscribeToUpdate"===e[0]&&e[1]&&"loadCompleted"===e[1].topic)return e[1].subscriber}).map(function(e){e&&e({response:{error:!0,errorPayload:{type:t,message:a}}})}))},
+a.getElementsByTagName("script")[0]);t.parentNode.insertBefore(e,t)},"loading"!==a.readyState?i():a.addEventListener("DOMContentLoaded",i))}();
+</script>
+<script>
+  document.getElementById('talk').addEventListener('click', function () {
+    try { window.sprChat('open'); } catch (e) {}
+    try { window.sprChat('openNewConversation'); } catch (e) {}
+    document.getElementById('hint').textContent = 'If the chat did not open, use the chat bubble at the bottom right.';
+  });
+</script>
+</body>
+</html>
